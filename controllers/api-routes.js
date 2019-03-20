@@ -48,7 +48,8 @@ router.get("/scrape", function(req, res) {
   router.get("/articles", function(req, res) {
     // TODO: Finish the route so it grabs all of the articles
     db.Article.find({}).then(function(dbArticles){
-      res.render("index", {articles: dbArticles})
+      console.log();
+      res.json(dbArticles)
       // res.json(dbArticles);
     })
     .catch(function(err){

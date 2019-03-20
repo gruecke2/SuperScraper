@@ -65,14 +65,24 @@
     <div id="wrapper">
       
       <h1>Note Scraper</h1>
-      <div id="articles">
+      <div id="entries">
         {{#each articles}}
           {{> article-block}}
         {{/each}}
       </div>
       <div id="notes"></div>
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="app.js"></script>
+    <script src="jquery.grid-a-licious.js"></script>
+     <script>
+      $("#entries").gridalicious({
+			width: 250, 
+			gutter: 1, 
+			selector: '.entry', 
+			animate: true
+		});
+    </script>
   </body>
 </html>

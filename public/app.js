@@ -77,20 +77,24 @@ $(document).on("click", "#savenote", function() {
 });
 
 function getArticles() {
-  $("#articles").empty();
-  $.getJSON("/articles", function (data) {
+  // $("#articles").empty();
+  $.ajax({
+    method: "GET",
+    url: "/articles"
+   }).then(function (data) {
     // For each one
     // $.ajax({
     //   method: "GET",
     //   url: "/articles-view"
     // }).then(articles => console.log(articles))
     // .catch(err => console.log(err));
-    for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      $("#articles")
-        .append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />"
-          + data[i].link + "<br/>https://reddit.com" + data[i].thread + "</p>");
-    }
+    // for (var i = 0; i < data.length; i++) {
+    //   // Display the apropos information on the page
+    //   $("#articles")
+    //     .append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />"
+    //       + data[i].link + "<br/>https://reddit.com" + data[i].thread + "</p>");
+    // }
+    console.log(data)
   });
 }
 
