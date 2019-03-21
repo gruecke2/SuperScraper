@@ -81,8 +81,7 @@ $(document).on("click", ".delNote", function() {
     .then(function(data) {
       // Log the response
       console.log("note post", data);
-      // Empty the notes section
-      //$("#notes").empty();
+      window.location.reload();
     });
   })
 
