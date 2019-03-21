@@ -1,88 +1,137 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Scraping With Mongoose</title>
-    <style>
-      body { background-color: #F2F6D0 }
-      #wrapper {
-        width: 960px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-top: 5%;
-      }
-      #articles {
-        display: inline-block;
-        overflow: auto;
-        width: 60%;
-        height: 700px;
-      }
-      #notes {
-        float: right;
-        width: 30%;
-      }
-      textarea, input {
-        display: block;
-        width: 100%;
-        background-color: #FCF5C7;
-      }
-      input {
-        height: 36px;
-        font-size: 24px;
-      }
-      textarea {
-        height: 200px;
-        font-size: 18px;
-      }
-    </style>
-  </head>
-  <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/">Mongo Scraper</a>
-  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<head>
+  <style>
+    body {
+      background-image: url("javascript.png");
+      background-size: contain;
+    }
 
-  <div class="collapse navbar-collapse" id="navbarColor01">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home
-          <span class="sr-only">(current)</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/saved">Saved Articles</a>
-      </li>
-      <li class="nav-item">
-        <a id="scrapeBtn" class="btn btn-danger scrape-new">SCRAPE NEW ARTICLES!</a>
-      </li>
-      <li class="nav-item">
-        <a class="btn btn-danger clear">CLEAR ARTICLES!</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-    <div id="wrapper">
-      
-      <h1>Note Scraper</h1>
-      <div id="entries">
-        {{#each articles}}
-          {{> article-block}}
-        {{/each}}
-      </div>
-      <div id="notes"></div>
+    .delNote{
+      color: red;
+      z-index: 1;
+      margin: -1rem -1rem -1rem 95%;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #entries {
+      margin: 0 0 20px 0;
+      padding-left: 1rem;
+    }
+
+    #articles {
+      display: inline-block;
+      overflow: auto;
+      width: 60%;
+      height: 700px;
+    }
+
+    #notes {
+      float: right;
+      width: 30%;
+    }
+
+    textarea,
+    input {
+      display: block;
+      width: 100%;
+    }
+
+    input {
+      height: 36px;
+      font-size: 24px;
+    }
+
+    textarea {
+      height: 200px;
+      font-size: 18px;
+    }
+
+    .noteBod {
+      border: solid 1px;
+      padding: 5px 0 0 5px;
+      margin: 0 0 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Mongo Scraper</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item">
+          <a id="scrapeBtn" class="btn btn-warning scrape-new">SCRAPE NEW ARTICLES!</a>
+        </li>
+
+      </ul>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="app.js"></script>
-    <script src="jquery.grid-a-licious.js"></script>
-     <script>
-      $("#entries").gridalicious({
-			width: 250, 
-			gutter: 1, 
-			selector: '.entry', 
-			animate: true
-		});
-    </script>
-  </body>
+  </nav>
+
+  <div class="container">
+
+    <h1>Top Articles from the <i class="fab fa-js"></i> Subreddit</h1>
+    <div id="entries">
+      {{#each articles}}
+      {{> article-block}}
+      {{/each}}
+    </div>
+    <div id="notes"></div>
+  </div>
+
+  <!-- Modal -->
+  <form id="note-form">
+    <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id="modal-notehead">
+            <h5 class="modal-title" id="modaltitle">
+              <div class="form-group">
+                <input type="text" placeholder="Post as..." id="authorinput" style="width: 100%;" autocomplete="off">
+              </div>
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="bodyWrapper">
+            <div class="form-group">
+              <textarea type="textbox" id="bodyinput" placeholder="Comment here" autocomplete="off"></textarea>
+            </div>
+            <div class="articleNotes">
+              {{#if notes}}
+              {{#each notes}}
+              {{> note}}
+              {{/each}}
+              {{/if}}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="saveNote">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="app.js"></script>
+  <script src="jquery.grid-a-licious.js"></script>
+  <script>
+    $("#entries").gridalicious({
+      width: 250,
+      gutter: 1,
+      selector: '.entry',
+      animate: true
+    });
+  </script>
+</body>
+
 </html>

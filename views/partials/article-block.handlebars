@@ -1,8 +1,14 @@
-<div class="entry">
+<div data-id="{{_id}}" class="entry">
   <div class="body">
     <h5 class="title">{{title}}</h5>
-    <p class="text">Posted on: </p>
-    <a href="https://reddit.com{{thread}}" class="btn btn-primary">Go to thread!</a>
-    <a href="https://reddit.com{{link}}" class="btn btn-primary">Go to article!</a>
+    <hr />
+    <a style="margin: 5px 0 5px 0" href="https://reddit.com{{thread}}" class="btn btn-primary threadBtn">Go to thread <i class="fab fa-reddit-alien fa-2x" aria-hidden="true"></i></a>
+    {{#if link}}
+    <a style="margin: 5px 0 5px 0" href="{{link}}" class="btn btn-danger artBtn">Go to article <i class="far fa-newspaper fa-2x"></i></a>
+    {{/if}}
+    <hr />
+    <div>
+      <a href="#" id="commentBtn" data-id="{{_id}}" data-toggle="modal" data-target="#noteModal">Leave a comment <i class="far fa-comment"></i></a>
+    </div>
   </div>
 </div>

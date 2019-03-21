@@ -17,7 +17,7 @@ a { text-decoration: none; color: #6699ff; }
 .field { width: 500px; box-shadow: 0 0 3px #aaa; border: 0; border-radius: 5px; padding: 5px; }
 .button { background: #fff; padding: 5px 10px; box-shadow: 0 0 3px #aaa; border: 0; border-radius: 5px; cursor: pointer; }
 .none { display: none; }
-.entry:nth-child(3n+0) { background:#ddffdd; }
-.entry:nth-child(3n+1) { background:#ffdddd; }
-.entry:nth-child(3n+2) { background:#ddddff; }
+.entry:nth-child(3n+0) { background:#b2edff; }
+.entry:nth-child(3n+1) { background:#fdff95; }
+.entry:nth-child(3n+2) { background:#fdf3f3; }
 

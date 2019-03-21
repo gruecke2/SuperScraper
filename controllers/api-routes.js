@@ -47,7 +47,7 @@ router.get("/scrape", function(req, res) {
   // Route for getting all Articles from the db
   router.get("/articles", function(req, res) {
     // TODO: Finish the route so it grabs all of the articles
-    db.Article.find({}).then(function(dbArticles){
+    db.Article.find({}).populate('note').then(function(dbArticles){
       console.log();
       res.json(dbArticles)
       // res.json(dbArticles);
@@ -59,11 +59,7 @@ router.get("/scrape", function(req, res) {
   
   // Route for grabbing a specific Article by id, populate it with it's note
   router.get("/articles/:id", function(req, res) {
-    // TODO
-    // ====
-    // Finish the route so it finds one article using the req.params.id,
-    // and run the populate method with "note",
-    // then responds with the article with the note included
+    
     db.Article.findOne({_id: req.params.id}).populate('note').then(function(dbArticles){
       res.json(dbArticles);
     })
@@ -74,11 +70,6 @@ router.get("/scrape", function(req, res) {
   
   // Route for saving/updating an Article's associated Note
   router.post("/articles/:id", function(req, res) {
-    // TODO
-    // ====
-    // save the new note that gets posted to the Notes collection
-    // then find an article from the req.params.id
-    // and update it's "note" property with the _id of the new note
   
     db.Note.create(req.body)
     .then(function(dbNote) {
@@ -93,5 +84,13 @@ router.get("/scrape", function(req, res) {
       console.log(err);
     });
     });
+
+    router.delete("/:noteID", function(req, res){
+      db.Note.deleteOne({_id: req.params.noteID}).then(function(deleted){
+        console.log(deleted);
+      }).catch(err => {
+        console.log(err);
+      })
+    })
 
 module.exports = router;
