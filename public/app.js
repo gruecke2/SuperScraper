@@ -7,6 +7,7 @@ $(document).on("click", "#scrapeBtn", function(){
     url: "/scrape"
   })
   .then(data => {
+    location.reload();
     alert(data);
     getArticles();
   })
